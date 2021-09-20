@@ -1,0 +1,38 @@
+{% extends 'base_post.html' %}
+
+{% block title %}
+Posts
+{% endblock title %}
+
+{% block content %}
+<form action="" method="POST" enctype="multipart/from-data">
+    <h2>Create post here</h2>
+    {% csrf_token %}{{post_form.as_p}}<button type="submit" name="name_for_post_form">Publish</button>
+</form>
+
+<h1>All posts</h1>
+<ul>
+    {% for post in all_posts %}
+    <p>
+        <form action="{% url 'Post:like_post' %}" method="POST" id="post.id"> {% csrf_token %}
+            <input type="hidden" name="id" value={{post.id}}>
+            <li><!--{{post.author.user}}<br>--><a href="{{ post.get_absolute_url }}">{{ post }}</a>   <button type="submit">
+                {% if account not in post.liked.all %}Like{% else %}Unlike{% endif %}</button> <i>author:</i> {{ post.author.username }}; <i>created:</i> {{ post.created|timesince}} ago
+            </li>
+        <i>likes:</i>{{post.liked.count}}<br><i>comments</i> {{post.num_comments}}:<ul>
+            {% for i in post.comentpostmodel_set.all %}
+                <li>{{ i.user.username }}<br>{{i.comment }};</li>
+            {% endfor %}</ul><br>
+        {% if post.coment_set.all %}{% for comment in post.coment_set.all %}{{comment.comment}}{% endfor %}{% endif %}
+        </form>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="id2" value={{post.id}}>
+            {{comment_form}}
+            <button type="submit" name="name_for_comment_form">Comment</button>
+        </form>
+    </p>
+    {% endfor %}    
+</ul>
+
+{% endblock %}

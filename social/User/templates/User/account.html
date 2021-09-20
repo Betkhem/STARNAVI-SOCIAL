@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Account
+{% endblock title %}
+
+{% block content %}
+{% if Success %}
+<script>alert("Data is updated");</script>
+{% endif %}
+<h1>Hello {{ user.username }}!</h1>
+<h2>This is your account page</h2>
+<p>Name: {{ user.first_name }}</p>
+<p>Surname: {{ user.last_name }}</p>
+<p>Bio: {{ user.bio }}</p>
+<p>Number of posts: {{ user.get_Post_number }}</p>
+<p>Number of likes for the posts: {{ user.get_like_count }}</p>
+<h2>Last log in {{user.last_login|timesince}}</h2>
+<h3>Update your profile</h3>
+<form action="" method="POST">
+{% csrf_token %}
+    {{ form.as_p }}
+    <input type='submit' value="Update">
+</form>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>This is the main page</h1>
+<h2>Posts</h2>
+<ul>
+    {% for post in all_posts %}
+        <li><i>Author:</i> {{post.author.user}}. <i>Post title:</i> {{ post }}...</li>
+    {% endfor %}
+</ul>
+<h2>Users</h2>
+<ul>
+    {% for user in all_users %}
+        <for><li>{{user.id}} - <a href="{{ user.get_absolute_url }}">{{ user.username }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
